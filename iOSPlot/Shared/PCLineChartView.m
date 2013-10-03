@@ -73,6 +73,9 @@
 
 -(void) initControls{
   [self setBackgroundColor:[UIColor clearColor]];
+  self.topMargin = 10;
+  self.bottomMargin = 10;
+  
   _interval = 20;
   _maxValue = 100;
   _minValue = 0;
@@ -93,8 +96,6 @@
 	int n_div;
 	int power;
 	float scale_min, scale_max, div_height;
-	float top_margin = 35;
-	float bottom_margin = 25;
 	float x_label_height = 20;
 
 	if (self.autoscaleYAxis) {
@@ -110,12 +111,12 @@
 		scale_max = self.maxValue;
 	}
 	n_div = (scale_max-scale_min)/self.interval + 1;
-	div_height = (self.frame.size.height-top_margin-bottom_margin-x_label_height)/(n_div-1);
+	div_height = (self.frame.size.height-self.topMargin-self.bottomMargin-x_label_height)/(n_div-1);
 
 	for (int i=0; i<n_div; i++) {
 		float y_axis = scale_max - i*self.interval;
 
-		int y = top_margin + div_height*i;
+		int y = self.topMargin + div_height*i;
 		CGRect textFrame = CGRectMake(0,y-8,25,20);
 
 		NSString *formatString = [NSString stringWithFormat:@"%%.%if", (power < 0) ? -power : 0];
@@ -183,7 +184,7 @@
 				CGContextSetLineWidth(ctx, circle_stroke_width);
 
 				int x = margin + div_width*x_axis_index;
-				int y = top_margin + (scale_max-value)/self.interval*div_height;
+				int y = self.topMargin + (scale_max-value)/self.interval*div_height;
 
 				CGRect circleRect = CGRectMake(x-circle_diameter/2, y-circle_diameter/2, circle_diameter,circle_diameter);
 				CGContextStrokeEllipseInRect(ctx, circleRect);
@@ -222,7 +223,7 @@
 	}
 
 	for (int i=0; i<[self.xLabels count]; i++) {
-		int y_level = top_margin;
+		int y_level = self.topMargin;
 
 		for (int j=0; j<[self.components count]; j++) {
 			NSArray *items = [[self.components objectAtIndex:j] points];
@@ -230,7 +231,7 @@
 			if (object!=[NSNull null] && object) {
 				float value = [object floatValue];
 				int x = margin + div_width*i;
-				int y = top_margin + (scale_max-value)/self.interval*div_height;
+				int y = self.topMargin + (scale_max-value)/self.interval*div_height;
 				int y1 = y - circle_diameter/2 - self.valueLabelFont.pointSize;
 				int y2 = y + circle_diameter/2;
 
@@ -245,7 +246,7 @@
 												 alignment:NSTextAlignmentCenter];
 						y_level = y1 + 20;
 					}
-					else if (y2 < y_level+20 && y2 < self.frame.size.height-top_margin-bottom_margin) {
+					else if (y2 < y_level+20 && y2 < self.frame.size.height-self.topMargin-self.bottomMargin) {
 						CGContextSetRGBFillColor(ctx, 0.0f, 0.0f, 0.0f, 1.0f);
 						NSString *perc_label = [NSString stringWithFormat:[[self.components objectAtIndex:j] labelFormat], value];
 						CGRect textFrame = CGRectMake(x-25,y2, 50,20);
