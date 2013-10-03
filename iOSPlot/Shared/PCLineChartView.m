@@ -50,19 +50,39 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
-		[self setBackgroundColor:[UIColor clearColor]];
-		_interval = 20;
-		_maxValue = 100;
-		_minValue = 0;
-		_yLabelFont = [UIFont boldSystemFontOfSize:14];
-		_xLabelFont = [UIFont boldSystemFontOfSize:12];
-		_valueLabelFont = [UIFont boldSystemFontOfSize:10];
-		_legendFont = [UIFont boldSystemFontOfSize:10];
-		_numYIntervals = 5;
-		_numXIntervals = 1;
-		_yLabelAlignment = NSTextAlignmentRight;
+		[self initControls];
 	}
 	return self;
+}
+
+-(id) initWithCoder:(NSCoder *)aDecoder{
+  self = [super initWithCoder: aDecoder];
+  if (self) {
+		[self initControls];
+	}
+	return self;
+}
+
+-(id) init{
+  self = [super init];
+  if (self) {
+		[self initControls];
+	}
+	return self;
+}
+
+-(void) initControls{
+  [self setBackgroundColor:[UIColor clearColor]];
+  _interval = 20;
+  _maxValue = 100;
+  _minValue = 0;
+  _yLabelFont = [UIFont boldSystemFontOfSize:14];
+  _xLabelFont = [UIFont boldSystemFontOfSize:12];
+  _valueLabelFont = [UIFont boldSystemFontOfSize:10];
+  _legendFont = [UIFont boldSystemFontOfSize:10];
+  _numYIntervals = 5;
+  _numXIntervals = 1;
+  _yLabelAlignment = NSTextAlignmentRight;
 }
 
 - (void)drawRect:(CGRect)rect {
