@@ -121,12 +121,17 @@
 
 		NSString *formatString = [NSString stringWithFormat:@"%%.%if", (power < 0) ? -power : 0];
 		NSString *text;
-		if (self.mappedYLabels != nil) {
-			NSUInteger key = [[NSString stringWithFormat:formatString, y_axis] integerValue];
-			text = [self.mappedYLabels objectForKey:[NSNumber numberWithInteger:key]];
-		} else {
-			text = [NSString stringWithFormat:formatString, y_axis];
-		}
+    //使用委托获取别名
+    if(self.delegate && [self.delegate respondsToSelector:@selector(PCLineChartView:YLabelText:)]){
+      text = [self.delegate PCLineChartView:self YLabelText:y_axis];
+    }else{
+      if (self.mappedYLabels != nil) {
+        NSUInteger key = [[NSString stringWithFormat:formatString, y_axis] integerValue];
+        text = [self.mappedYLabels objectForKey:[NSNumber numberWithInteger:key]];
+      } else {
+        text = [NSString stringWithFormat:formatString, y_axis];
+      }
+    }
 		[text drawInRect:textFrame withFont:self.yLabelFont lineBreakMode:NSLineBreakByWordWrapping alignment:self.yLabelAlignment];
 
 		// These are "grid" lines

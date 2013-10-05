@@ -47,10 +47,13 @@
 #define PCColorYellow [UIColor colorWithRed:1.0 green:220/255.0 blue:0.0 alpha:1.0]
 #define PCColorDefault [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]
 
+@protocol  PCLineChartViewDelegate;
+
 @interface PCLineChartView : UIView
 @property (nonatomic, assign) float topMargin;
 @property (nonatomic, assign) float bottomMargin;
 
+@property (nonatomic, weak) id<PCLineChartViewDelegate> delegate;
 @property (nonatomic, assign) float interval;
 @property (nonatomic, assign) float minValue;
 @property (nonatomic, assign) float maxValue;
@@ -73,4 +76,9 @@
 ///
 @property (nonatomic) NSTextAlignment yLabelAlignment;
 
+@end
+
+
+@protocol PCLineChartViewDelegate <NSObject>
+-(NSString *) PCLineChartView: (PCLineChartView *) lineChart YLabelText: (CGFloat) yValue;
 @end
